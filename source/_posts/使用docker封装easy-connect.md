@@ -50,11 +50,17 @@ tags: [network, docker]
 
 2. 进入 VNC 客户端，地址输入`127.0.0.1`，端口: `5901`, 密码 `xxxx`；
 
-3. 成功连接上后可以看到EC的登录界面，登录即可
+3. 成功连接上后可以看到EC的登录界面，登录即可。
+
+   ![VNC](VNC.png)
+
+4. 下次启动时，只需要container点击启动
+
+   ![docker-desktop](docker-desktop.png)
 
 ## 第三步：代理配置
 
-打开我们的神秘小猫软件，修改其中的配置即可。我们的容器连接了主机的`1080`和`8888`分别对应了sock5和http代理，之后我们针对撰写代理配置文件即可。
+打开我们的神秘小猫软件，修改其中的配置即可。我们的容器连接了主机的`1080`和`8888`端口，分别对应了sock5和http代理，之后我们针对撰写代理配置文件即可。
 
 对于不会修改配置文件的同学，可以直接复制我的：
 
@@ -78,7 +84,8 @@ proxy-groups:
       - DIRECT
 
 rules:
-  - DOMAIN-SUFFIX,act.buaa.edu.cn,FINAL-GROUP
+  - DOMAIN-SUFFIX,xxx.xxx.xxx.xxx,FINAL-GROUP 
+  (这里的xxx修改成你需要代理的网站的后缀，如你需要代理大学内网，可以修改成xxx.edu.cn)
 ```
 
 注意，在连接的过程中，不要打开 tun 模式(虚拟网卡)，目前主播暂时不清楚冲突的原因。
