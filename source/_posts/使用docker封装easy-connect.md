@@ -3,6 +3,7 @@ title: 使用docker封装easy-connect (新手向经验帖)
 date: 2025-11-01 10:30:25
 tags: [network, docker]
 ---
+
 # 记录一次用 Docker 隔离 EasyConnect 实践记录
 
 > 在访问校园网资源时，EasyConnect（EC）都是我们绕不开的工具。
@@ -20,20 +21,18 @@ tags: [network, docker]
 1. ~~神秘的小猫软件~~
 
 2. Docker 环境：
-
    - 对于 macOS 和 Linux 用户，直接在[官网](https://www.docker.com/)上安装 Docker Desktop 即可。
    - 对于 Windows 用户，你需要先确保系统启用了 [WSL2 ](https://learn.microsoft.com/zh-cn/windows/wsl/install)，之后才能在微软商店或[官网](https://www.docker.com/)下载并运行 Docker Desktop。
    - 安装完成后，运行以下命令验证 Docker 是否安装成功：
 
    VNC 客户端： 我们需要一个 VNC 客户端来连接到 Docker 容器内部的图形界面。
-
    - macOS 用户可以直接使用自带的 “屏幕共享” app。
    - Windows 用户可以在微软商店或[官网](https://www.realvnc.com/en/connect/download/viewer/)下载 RealVNC Viewer 客户端。
 
 3. 安装完成后，在终端中运行以下命令验证 Docker 是否安装成功：
 
    ```bash
-   docker --version 
+   docker --version
    # 运行一个测试容器，如果看到 "Hello from Docker!" 则表示成功
    docker run hello-world
    ```
@@ -46,7 +45,7 @@ tags: [network, docker]
    docker run --device /dev/net/tun --cap-add NET_ADMIN -ti -e PASSWORD=xxxx -e URLWIN=1 -v $HOME/.ecdata:/root -p 127.0.0.1:5901:5901 -p 127.0.0.1:1080:1080 -p 127.0.0.1:8888:8888 hagb/docker-easyconnect:latest
    ```
 
-   arm64 架构的设备（如高通windows和m芯片的mac）需要加入 `-e DISABLE_PKG_VERSION_XML=1` 
+   arm64 架构的设备（如高通windows和m芯片的mac）需要加入 `-e DISABLE_PKG_VERSION_XML=1`
 
 2. 进入 VNC 客户端，地址输入`127.0.0.1`，端口: `5901`, 密码 `xxxx`；
 
@@ -73,7 +72,7 @@ log-level: info
 proxies:
   - name: vpn
     type: socks5
-    server: "127.0.0.1"
+    server: 127.0.0.1
     port: 1080
 
 proxy-groups:
@@ -84,7 +83,7 @@ proxy-groups:
       - DIRECT
 
 rules:
-  - DOMAIN-SUFFIX,xxx.xxx.xxx.xxx,FINAL-GROUP 
+  - DOMAIN-SUFFIX,xxx.xxx.xxx.xxx,FINAL-GROUP
   (这里的xxx修改成你需要代理的网站的后缀，如你需要代理大学内网，可以修改成xxx.edu.cn)
 ```
 
